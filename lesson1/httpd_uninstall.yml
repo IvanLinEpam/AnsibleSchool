@@ -1,0 +1,37 @@
+---
+- name: uninstall httpd
+  hosts: node1.example.com
+
+  tasks:
+  
+  - name: ensure https is stopped
+    service:
+      name: httpd
+      state: stopped
+      enabled: false
+
+  - name: uninstall httpd
+    yum:
+      name: httpd
+      autoremove: yes
+      state: absent
+
+  - name: remove index file
+    file:
+      path: "/var/www/html/index.html"
+      state: absent
+
+  - name: enable firewall
+    service:
+      name: firewalld
+      state: started
+      enabled: true
+
+  - name: close http port
+    firewalld:
+      service: http
+      permanent: true
+      state: disabled
+      immediate: yes
+...
+

@@ -1,0 +1,17 @@
+---
+- name: Edit grub
+  hosts: node1.example.com
+  
+  tasks:
+  - name: edit line grub
+    lineinfile:
+      dest: /etc/default/grub
+      backrefs: yes
+      regexp: '^(GRUB_CMDLINE_LINUX=(?!.*  biosdevname=0)\"[^\"]+)(\".*)'  
+      line: '\1 net.ifnames=0  biosdevname=0\2'
+      backup: true
+
+  - name: write grub conf file
+    command: grub2-mkconfig
+
+
