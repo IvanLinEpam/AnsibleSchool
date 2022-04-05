@@ -1,0 +1,22 @@
+---
+- name: create users
+  hosts: node2.example.com
+  vars_files:
+    - vault.yml
+ 
+  tasks:              
+    - name: create users
+      user:
+       name: "{{item.name}}"
+       password: "{{item.password}}"
+       create_home: yes
+       comment: "{{item.name}}@example.com"
+       state: present
+
+      loop:
+        - name: Alice
+          password: "{{Alice_pass | password_hash('sha512')}}"
+        - name: Bob
+          password: "{{Bob_pass  | password_hash('sha512')}}"
+        - name: Carol
+          password: "{{Carol_pass  | password_hash('sha512')}}"  
