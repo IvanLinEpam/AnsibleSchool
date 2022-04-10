@@ -1,0 +1,40 @@
+---
+# tasks file for install_httpd
+
+ - name: install httpd
+   yum:
+     name: httpd
+     state: present
+
+ - name: ensure https is running
+   service:
+     name: httpd
+     state: started
+     enabled: true
+
+ - name: Collect service facts
+   service_facts:  
+
+ - name: Check httpd state
+   debug:
+     msg: "Httpd service is {{ansible_facts.services['httpd.service'].state}} and {{ansible_facts.services['httpd.service'].status}}"
+
+ - name: create index file
+   copy:
+     dest: "{{dest_dir}}" 
+     content: "{{greet}}"
+
+ - name: enable firewall
+   service:
+     name: firewalld
+     state: started
+     enabled: true
+
+ - name: open http port
+   firewalld:
+     service: http
+     permanent: true
+     state: enabled
+     immediate: yes
+
+

@@ -1,0 +1,6 @@
+---
+- name: use install_httpd role
+  hosts: node2.example.com
+
+  roles:
+    - role: install_httpd

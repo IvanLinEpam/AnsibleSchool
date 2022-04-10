@@ -1,0 +1,61 @@
+---
+# tasks file for install_vsftpd
+
+ - name: Install VSFTPD
+   yum:
+     name: vsftpd
+     state: present
+
+ - name: Start service VSFTPD
+   service:
+     name: vsftpd
+     state: started
+     enabled: true
+
+ - name: enable firewall
+   service:
+     name: firewalld
+     state: started
+     enabled: true
+
+ - name: Allow FTP service in Firewall
+   firewalld:
+     port: "{{item}}"
+     permanent: true
+     state: enabled
+     immediate: true
+   loop:
+     - 20/tcp
+     - 21/tcp
+     - 1024/tcp  
+     
+ - name: Create home dir for anonymous user if it doesn't exists
+   file:
+     path: /var/ftp/pub
+     state: directory
+     mode: 0555
+     owner: "ftp"
+     group: "ftp"
+     setype: "public_content_rw_t"
+     seuser: "system_u"
+
+ - name: Create home dir upload
+   file:
+     path: /var/ftp/pub/upload
+     state: directory
+     mode: 0755
+     owner: "ftp"
+     #group: "ftp"
+     #setype: "public_content_rw_t"
+     #seuser: "system_u"
+
+ # VSFTPD setup    
+ - name: Copy vsftpd configuration in place
+   template:    
+     src: templates/vsftpd.conf.j2
+     dest: /etc/vsftpd/vsftpd.conf
+     mode: 644
+     backup: yes
+   notify:
+     - restart vsftpd 
+    

@@ -1,0 +1,4 @@
+---
+# defaults file for install_httpd
+dest_dir: "/var/www/html/index.html"
+greet: "Welcome to my web server \n"
