@@ -24,7 +24,7 @@
       name: firewalld
       state: started
       enabled: true
-
+ 
   - name: open http port
     firewalld:
       service: http

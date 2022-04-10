@@ -1,6 +1,6 @@
 ---
 - name: uninstall httpd
-  hosts: node1.example.com
+  hosts: node2.example.com
 
   tasks:
   
