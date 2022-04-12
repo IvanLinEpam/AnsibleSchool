@@ -33,8 +33,8 @@
    file:
      path: /var/ftp/pub
      state: directory
-     mode: 0555
-     owner: "ftp"
+     mode: 0755
+     owner: "root"
      group: "ftp"
      setype: "public_content_rw_t"
      seuser: "system_u"
@@ -45,9 +45,9 @@
      state: directory
      mode: 0755
      owner: "ftp"
-     #group: "ftp"
-     #setype: "public_content_rw_t"
-     #seuser: "system_u"
+     group: "ftp"
+     setype: "public_content_rw_t"
+     seuser: "system_u"
 
  # VSFTPD setup    
  - name: Copy vsftpd configuration in place
